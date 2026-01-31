@@ -14,10 +14,10 @@ public record Cart(
     CartId id,
     UserId userId,
     Map<ItemId, CartItem> items,
-    boolean isCheckOut) {
+    boolean isCheckedOut) {
 
   public static Cart empty(CartId id, UserId userId) {
-    return new Cart(id, userId, null, false);
+    return new Cart(id, userId, new HashMap<>(), false);
   }
 
   public CartEvent.ItemAdded process(CartCommand.AddItem command) {
@@ -54,7 +54,7 @@ public record Cart(
   }
 
   private void verifyCartIsActive() {
-    if (this.isCheckOut) {
+    if (this.isCheckedOut) {
       throw new IllegalStateException("Cart is already checked out");
     }
   }
