@@ -1,9 +1,8 @@
-package com.example.cartservice.domain.value;
+package com.example.cartservice.domain.cart.value;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.example.cartservice.domain.cart.value.Quantity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

@@ -1,26 +1,25 @@
-package com.example.cartservice.domain.value;
+package com.example.cartservice.domain.cart.value;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.example.cartservice.domain.cart.value.ItemId;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ItemIdTest {
+class UserIdTest {
 
   @Test
-  @DisplayName("Should create ItemId successfully with a valid string")
-  void createValidItemId() {
+  @DisplayName("Should create UserId successfully with a valid string")
+  void createValidUserId() {
     // Arrange
-    String validValue = "item-123";
+    String validValue = "user-123";
 
     // Act
-    ItemId itemId = new ItemId(validValue);
+    UserId UserId = new UserId(validValue);
 
     // Assert
-    assertThat(itemId.value()).isEqualTo(validValue);
+    assertThat(UserId.value()).isEqualTo(validValue);
   }
 
   @Test
@@ -28,9 +27,9 @@ class ItemIdTest {
   void cannotCreateWithNull() {
     // Act & Assert
     // Assert.hasText checks for null
-    assertThatThrownBy(() -> new ItemId(null))
+    assertThatThrownBy(() -> new UserId(null))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("ItemId cannot be empty");
+        .hasMessageContaining("UserId cannot be empty");
   }
 
   @Test
@@ -38,9 +37,9 @@ class ItemIdTest {
   void cannotCreateWithEmptyString() {
     // Act & Assert
     // Assert.hasText checks for empty string ""
-    assertThatThrownBy(() -> new ItemId(""))
+    assertThatThrownBy(() -> new UserId(""))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("ItemId cannot be empty");
+        .hasMessageContaining("UserId cannot be empty");
   }
 
   @Test
@@ -48,8 +47,8 @@ class ItemIdTest {
   void cannotCreateWithWhitespace() {
     // Act & Assert
     // Assert.hasText checks for whitespace " "
-    assertThatThrownBy(() -> new ItemId("   "))
+    assertThatThrownBy(() -> new UserId("   "))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("ItemId cannot be empty");
+        .hasMessageContaining("UserId cannot be empty");
   }
 }
