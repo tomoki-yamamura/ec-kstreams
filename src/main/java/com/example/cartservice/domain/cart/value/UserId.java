@@ -1,4 +1,4 @@
-package com.example.cartservice.domain.value;
+package com.example.cartservice.domain.cart.value;
 
 import org.springframework.util.Assert;
 

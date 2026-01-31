@@ -1,10 +1,10 @@
-package com.example.cartservice.domain.aggregate;
+package com.example.cartservice.domain.cart;
 
-import com.example.cartservice.domain.command.CartCommand;
-import com.example.cartservice.domain.event.CartEvent;
-import com.example.cartservice.domain.value.ItemId;
-import com.example.cartservice.domain.value.Quantity;
-import com.example.cartservice.domain.value.UserId;
+import com.example.cartservice.domain.cart.command.CartCommand;
+import com.example.cartservice.domain.cart.event.CartEvent;
+import com.example.cartservice.domain.cart.value.ItemId;
+import com.example.cartservice.domain.cart.value.Quantity;
+import com.example.cartservice.domain.cart.value.UserId;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

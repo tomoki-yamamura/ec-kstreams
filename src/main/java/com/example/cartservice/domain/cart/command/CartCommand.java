@@ -1,8 +1,8 @@
-package com.example.cartservice.domain.command;
+package com.example.cartservice.domain.cart.command;
 
-import com.example.cartservice.domain.value.ItemId;
-import com.example.cartservice.domain.value.Quantity;
-import com.example.cartservice.domain.value.UserId;
+import com.example.cartservice.domain.cart.value.ItemId;
+import com.example.cartservice.domain.cart.value.Quantity;
+import com.example.cartservice.domain.cart.value.UserId;
 
 public sealed interface CartCommand {
   UserId userId();
