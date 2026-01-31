@@ -10,4 +10,12 @@ public record Quantity(int value) {
   public Quantity add(Quantity other) {
     return new Quantity(this.value + other.value());
   }
+
+  public Quantity subtract(Quantity other) {
+    return new Quantity(this.value - other.value);
+  }
+
+  public boolean isZero() {
+    return this.value == 0;
+  }
 }
