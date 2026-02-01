@@ -24,13 +24,11 @@ public class CartTopology {
   @Autowired
   public void buildTopology(StreamsBuilder builder) {
 
-    // 1. Serdes (JSON Serializer/Deserializer)
     Serde<String> stringSerde = Serdes.String();
     JsonSerde<CartCommand> commandSerde = new JsonSerde<>(CartCommand.class);
     JsonSerde<CartEvent> eventSerde = new JsonSerde<>(CartEvent.class);
     JsonSerde<Cart> cartSerde = new JsonSerde<>(Cart.class);
 
-    // Configure Serdes to trust packages
     commandSerde.configure(java.util.Map.of("spring.json.trusted.packages", "*"), false);
     eventSerde.configure(java.util.Map.of("spring.json.trusted.packages", "*"), false);
     cartSerde.configure(java.util.Map.of("spring.json.trusted.packages", "*"), false);
