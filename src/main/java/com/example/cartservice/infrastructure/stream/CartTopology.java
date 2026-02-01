@@ -4,6 +4,7 @@ import com.example.cartservice.domain.cart.Cart;
 import com.example.cartservice.domain.cart.command.CartCommand;
 import com.example.cartservice.domain.cart.event.CartEvent;
 import com.example.cartservice.domain.cart.value.CartId;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
@@ -23,14 +24,20 @@ public class CartTopology {
   public static final String EVENTS_TOPIC = "cart-events";
   public static final String SNAPSHOTS_STORE = "cart-snapshots";
 
+  private final ObjectMapper objectMapper;
+
+  public CartTopology(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+
   @Autowired
   public void buildTopology(StreamsBuilder builder) {
 
     Serde<String> stringSerde = Serdes.String();
 
-    JsonSerde<CartCommand> commandSerde = new JsonSerde<>(CartCommand.class);
-    JsonSerde<CartEvent> eventSerde = new JsonSerde<>(CartEvent.class);
-    JsonSerde<Cart> cartSerde = new JsonSerde<>(Cart.class);
+    JsonSerde<CartCommand> commandSerde = new JsonSerde<>(CartCommand.class, objectMapper);
+    JsonSerde<CartEvent> eventSerde = new JsonSerde<>(CartEvent.class, objectMapper);
+    JsonSerde<Cart> cartSerde = new JsonSerde<>(Cart.class, objectMapper);
 
     commandSerde.configure(java.util.Map.of("spring.json.trusted.packages", "*"), false);
     eventSerde.configure(java.util.Map.of("spring.json.trusted.packages", "*"), false);
