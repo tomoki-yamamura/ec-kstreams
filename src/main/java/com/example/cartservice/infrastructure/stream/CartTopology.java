@@ -6,14 +6,14 @@ import com.example.cartservice.domain.cart.event.CartEvent;
 import com.example.cartservice.domain.cart.value.CartId;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.*;
+import org.apache.kafka.streams.state.KeyValueStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafkaStreams;
 import org.springframework.kafka.support.serializer.JsonSerde;
-import org.apache.kafka.common.utils.Bytes;
-import org.apache.kafka.streams.state.KeyValueStore;
 
 @Configuration
 @EnableKafkaStreams
@@ -27,6 +27,7 @@ public class CartTopology {
   public void buildTopology(StreamsBuilder builder) {
 
     Serde<String> stringSerde = Serdes.String();
+
     JsonSerde<CartCommand> commandSerde = new JsonSerde<>(CartCommand.class);
     JsonSerde<CartEvent> eventSerde = new JsonSerde<>(CartEvent.class);
     JsonSerde<Cart> cartSerde = new JsonSerde<>(Cart.class);
@@ -56,15 +57,14 @@ public class CartTopology {
         .leftJoin(
             cartTable,
             (command, cart) -> {
-              Cart currentCart = (cart != null) ? cart : Cart.empty(new CartId("temp"), command.userId());
+              Cart currentCart = (cart != null) ? cart : Cart.empty(command.cartId(), command.userId());
               try {
                 return currentCart.process(command);
               } catch (Exception e) {
-                System.err.println("Command failed: " + e.getMessage());
                 return null;
               }
             },
-            Joined.<String, CartCommand, Cart>with(stringSerde, commandSerde, cartSerde))
+            Joined.with(stringSerde, commandSerde, cartSerde))
         .filter((key, event) -> event != null)
         .to(EVENTS_TOPIC, Produced.with(stringSerde, eventSerde));
   }

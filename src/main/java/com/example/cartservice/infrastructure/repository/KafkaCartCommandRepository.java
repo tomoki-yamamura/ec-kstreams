@@ -6,8 +6,6 @@ import com.example.cartservice.infrastructure.stream.CartTopology;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.concurrent.CompletableFuture;
-
 @Repository
 public class KafkaCartCommandRepository implements CartCommandRepository {
 
@@ -19,16 +17,7 @@ public class KafkaCartCommandRepository implements CartCommandRepository {
 
   @Override
   public void save(CartCommand command) {
-    String key = command.userId().value();
-
-    CompletableFuture<?> future = kafkaTemplate.send(CartTopology.COMMANDS_TOPIC, key, command);
-
-    future.whenComplete((result, ex) -> {
-      if (ex == null) {
-        System.out.println("Command saved successfully: " + command);
-      } else {
-        System.err.println("Failed to save command: " + ex.getMessage());
-      }
-    });
+    String key = command.cartId().value();
+    kafkaTemplate.send(CartTopology.COMMANDS_TOPIC, key, command);
   }
 }

@@ -1,4 +1,4 @@
-package com.example.cartservice.application.controller.dto.response;
+package com.example.cartservice.application.controller.dto.command.response;
 
 public record CartOperationResponse(
     String cartId,

@@ -1,7 +1,8 @@
 package com.example.cartservice.application.controller;
 
-import com.example.cartservice.application.controller.dto.request.AddItemRequest;
-import com.example.cartservice.application.controller.dto.response.CartOperationResponse;
+import com.example.cartservice.application.controller.dto.command.request.AddItemRequest;
+import com.example.cartservice.application.controller.dto.command.response.CartOperationResponse;
+import com.example.cartservice.application.controller.dto.query.response.CartResponse;
 import com.example.cartservice.application.usecase.command.CartCommandUseCase;
 import com.example.cartservice.application.usecase.query.CartQueryUseCase;
 import com.example.cartservice.domain.cart.Cart;
@@ -21,9 +22,9 @@ public class CartController {
   }
 
   @GetMapping("/{cartId}")
-  public ResponseEntity<Cart> getCart(@PathVariable String cartId) {
+  public ResponseEntity<CartResponse> getCart(@PathVariable String cartId) {
     Cart cart = cartQueryUseCase.getCart(cartId);
-    return ResponseEntity.ok(cart);
+    return ResponseEntity.ok(CartResponse.from(cart));
   }
 
   @PostMapping("/items")
