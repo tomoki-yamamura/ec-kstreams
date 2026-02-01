@@ -1,4 +1,4 @@
-package com.example.cartservice.application.usecase;
+package com.example.cartservice.application.usecase.command;
 
 import com.example.cartservice.domain.cart.command.CartCommand;
 import com.example.cartservice.domain.cart.repository.CartCommandRepository;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class CartUseCase {
+public class CartCommandUseCase {
 
   private final CartCommandRepository commandRepository;
   private final UserCartRepository userCartRepository;
 
-  public CartUseCase(CartCommandRepository commandRepository,
+  public CartCommandUseCase(CartCommandRepository commandRepository,
       UserCartRepository userCartRepository) {
     this.commandRepository = commandRepository;
     this.userCartRepository = userCartRepository;
