@@ -20,6 +20,14 @@ public record Cart(
     return new Cart(id, userId, new HashMap<>(), false);
   }
 
+  public CartEvent process(CartCommand command) {
+    return switch (command) {
+      case CartCommand.AddItem c -> process(c);
+      case CartCommand.RemoveItem c -> process(c);
+      case CartCommand.SubmitCart c -> process(c);
+    };
+  }
+
   public CartEvent.ItemAdded process(CartCommand.AddItem command) {
     verifyCartIsActive();
 
