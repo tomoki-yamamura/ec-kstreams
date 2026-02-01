@@ -32,7 +32,7 @@ class CartTest {
     @DisplayName("Should return ItemAdded event when adding item to active cart")
     void processAddItem() {
       Cart cart = Cart.empty(CART_ID, USER_ID);
-      CartCommand.AddItem command = new CartCommand.AddItem(USER_ID, ITEM_ID, QTY_1);
+      CartCommand.AddItem command = new CartCommand.AddItem(CART_ID, USER_ID, ITEM_ID, QTY_1);
 
       CartEvent.ItemAdded event = cart.process(command);
 
@@ -48,7 +48,7 @@ class CartTest {
     void processRemoveItem() {
       CartItem existingItem = new CartItem(ITEM_ID, QTY_2);
       Cart cart = new Cart(CART_ID, USER_ID, Map.of(ITEM_ID, existingItem), false);
-      CartCommand.RemoveItem command = new CartCommand.RemoveItem(USER_ID, ITEM_ID, QTY_1);
+      CartCommand.RemoveItem command = new CartCommand.RemoveItem(CART_ID, USER_ID, ITEM_ID, QTY_1);
 
       CartEvent.ItemRemoved event = cart.process(command);
 
@@ -61,7 +61,7 @@ class CartTest {
     @DisplayName("Should throw IllegalArgumentException when removing item that does not exist")
     void failRemoveItemNotFound() {
       Cart cart = Cart.empty(CART_ID, USER_ID);
-      CartCommand.RemoveItem command = new CartCommand.RemoveItem(USER_ID, ITEM_ID, QTY_1);
+      CartCommand.RemoveItem command = new CartCommand.RemoveItem(CART_ID, USER_ID, ITEM_ID, QTY_1);
 
       assertThatThrownBy(() -> cart.process(command))
           .isInstanceOf(IllegalArgumentException.class)
@@ -73,7 +73,7 @@ class CartTest {
     void processSubmitCart() {
       CartItem existingItem = new CartItem(ITEM_ID, QTY_1);
       Cart cart = new Cart(CART_ID, USER_ID, Map.of(ITEM_ID, existingItem), false);
-      CartCommand.SubmitCart command = new CartCommand.SubmitCart(USER_ID);
+      CartCommand.SubmitCart command = new CartCommand.SubmitCart(CART_ID, USER_ID);
 
       CartEvent.CartSubmitted event = cart.process(command);
 
@@ -85,7 +85,7 @@ class CartTest {
     @DisplayName("Should throw IllegalStateException when submitting empty cart")
     void failSubmitEmptyCart() {
       Cart cart = Cart.empty(CART_ID, USER_ID);
-      CartCommand.SubmitCart command = new CartCommand.SubmitCart(USER_ID);
+      CartCommand.SubmitCart command = new CartCommand.SubmitCart(CART_ID, USER_ID);
 
       assertThatThrownBy(() -> cart.process(command))
           .isInstanceOf(IllegalStateException.class)
@@ -96,7 +96,7 @@ class CartTest {
     @DisplayName("Should throw IllegalStateException when modifying checked-out cart")
     void failWhenAlreadyCheckedOut() {
       Cart cart = new Cart(CART_ID, USER_ID, Map.of(), true);
-      CartCommand.AddItem command = new CartCommand.AddItem(USER_ID, ITEM_ID, QTY_1);
+      CartCommand.AddItem command = new CartCommand.AddItem(CART_ID, USER_ID, ITEM_ID, QTY_1);
 
       assertThatThrownBy(() -> cart.process(command))
           .isInstanceOf(IllegalStateException.class)
